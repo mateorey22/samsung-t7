@@ -2,60 +2,113 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>SSD T7</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung Portable SSD T7</title>
     <style>
         body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
             background-color: black;
             color: white;
-            font-family: 'Arial', sans-serif;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 2s ease-in-out;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.85);
+        }
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .info {
             text-align: center;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 2em;
-        }
-        #model3d {
-            width: 80%;
-            height: 500px;
-            margin: auto;
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            font-size: 1.2em;
         }
     </style>
 </head>
 <body>
-    <h1>Samsung Portable SSD T7</h1>
-    <div id="model3d"></div>
-    <p>Le Samsung Portable SSD T7, sorti en 2020, offre une solution de stockage externe rapide et fiable. Avec sa technologie de pointe, ce SSD portable est idéal pour les professionnels et les technophiles cherchant à améliorer leurs systèmes.</p>
+    <div class="overlay">
+        <h1>Chargement du SSD T7...</h1>
+    </div>
+    <div class="info">
+        Samsung Portable SSD T7 - Modèle 3D Interactif
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/loaders/OBJLoader.js"></script>
     <script>
-        var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        var renderer = new THREE.WebGLRenderer({antialias: true});
-        renderer.setClearColor("#000000");  // Background color
-        renderer.setSize(window.innerWidth, 500);  // Adjust this line to set how you want the renderer to appear
-        document.getElementById('model3d').appendChild(renderer.domElement);
+        let container;
+        let camera, scene, renderer;
+        let objModel;
 
-        // Add lighting
-        var ambientLight = new THREE.AmbientLight(0x404040, 2);
-        scene.add(ambientLight);
-        var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-        directionalLight.position.set(0, 1, 1);
-        scene.add(directionalLight);
+        init();
+        animate();
 
-        // Load the 3D model
-        var objLoader = new THREE.OBJLoader();
-        objLoader.load('https://cdn.jsdelivr.net/gh/mateorey22/samsung-t7@main/Samsung%20SSD-Samsung%20Portable%20SSD%20T7.obj', function (object) {
-            scene.add(object);
-            object.position.y -= 60;  // Adjust position if necessary
-            camera.position.z = 200;  // Adjust camera position if necessary
-        });
+        function init() {
+            container = document.createElement('div');
+            document.body.appendChild(container);
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+            camera.position.z = 250;
+
+            // Scene
+            scene = new THREE.Scene();
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
+            scene.add(ambientLight);
+
+            const pointLight = new THREE.PointLight(0xffffff, 0.8);
+            camera.add(pointLight);
+            scene.add(camera);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            // Load Model
+            const objLoader = new THREE.OBJLoader();
+            objLoader.setPath('path_to_your_obj/');
+            objLoader.load('Samsung SSD-Samsung Portable SSD T7.obj', function (object) {
+                objModel = object;
+                scene.add(objModel);
+                objModel.position.y = -95;
+            });
+
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
 
         function animate() {
             requestAnimationFrame(animate);
+            if (objModel) objModel.rotation.y += 0.005; // rotate the model
             renderer.render(scene, camera);
         }
-        animate();
+
+        // Hide the overlay when the model is loaded
+        objLoader.manager.onLoad = function () {
+            document.querySelector('.overlay').classList.add('hidden');
+        };
     </script>
 </body>
 </html>
