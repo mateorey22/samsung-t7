@@ -10,7 +10,7 @@ document.body.appendChild(renderer.domElement);
 // Charger un modèle GLB
 const loader = new GLTFLoader();
 loader.load(
-    'path_to_your_model/model.glb',  // Remplace 'path_to_your_model/model.glb' par le chemin d'accès à ton modèle
+    'https://github.com/mateorey22/samsung-t7/blob/main/ImageToStl.com_samsung%2Bssd-samsung%2Bportable%2Bssd%2Bt7.glb',  // Remplace 'path_to_your_model/model.glb' par le chemin d'accès à ton modèle
     function (gltf) {
         scene.add(gltf.scene);
     },
