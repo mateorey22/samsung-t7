@@ -3,18 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Carte de Visite - Matéo Rey</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
-            color: white; /* Couleur du texte en blanc */
-            background-color: black; /* Fond de la page en noir */
+            color: white;
+            background-color: black;
             text-align: center;
-            padding: 50px;
+            padding: 20px;
+            margin: 0;
+        }
+        a, h1, p, h2 {
+            transition: color 0.5s ease;
+        }
+        a:hover, h1:hover, p:hover, h2:hover {
+            color: #CCCCCC; /* Couleur gris clair au survol */
         }
         img {
+            width: 90%; /* Largeur relative pour la responsivité */
+            height: auto;
+            transition: opacity 0.5s ease-in-out;
             margin-top: 20px;
-            width: 300px; /* Largeur de l'image redimensionnée */
-            height: auto; /* Hauteur ajustée automatiquement */
+        }
+        img:hover {
+            opacity: 0.6; /* L'image devient plus transparente lors du survol */
+        }
+        .content:hover {
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @media (min-width: 600px) {
+            body {
+                padding: 50px;
+            }
+            img {
+                width: 300px; /* Taille fixe pour les écrans plus larges */
+            }
         }
     </style>
 </head>
@@ -23,7 +51,7 @@
     <p>Rue du Poïet 24</p>
     <p>3963 Montana</p>
     <a href="mailto:mateo.rey@edu.vs.ch">mateo.rey@edu.vs.ch</a>
-    <div>
+    <div class="content">
         <img src="https://github.com/mateorey22/samsung-t7/blob/main/sg-portable-ssd-t7-mu-pc500t-ww_3%20(2).png?raw=true" alt="SSD T7 Samsung">
         <p>Ce SSD appartient à Matéo. Merci de le lui remettre en main propre dans les plus brefs délais.</p>
         <h2>SSD T7 Samsung</h2>
