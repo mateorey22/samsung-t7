@@ -1,55 +1,23 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            color: white;
-            background-color: black;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        .container {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        canvas {
-            outline: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Model Display</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="container">
-    <canvas id="c"></canvas>
+  <h1>Samsung Portable SSD T7</h1>
+  <p>This portable SSD offers high-speed transfers and durable design to secure your data on the go.</p>
+  <div id="model"></div>
+  <div class="coordinates">
+    <h2>Contact Information</h2>
+    <p>Name: John Doe</p>
+    <p>Email: johndoe@example.com</p>
+  </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-
-    var renderer = new THREE.WebGLRenderer({canvas: document.getElementById('c')});
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    var geometry = new THREE.BoxGeometry();
-    var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    var cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-
-    camera.position.z = 5;
-
-    var animate = function () {
-        requestAnimationFrame(animate);
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
-        renderer.render(scene, camera);
-    };
-
-    animate();
-</script>
+<script src="https://threejs.org/build/three.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
