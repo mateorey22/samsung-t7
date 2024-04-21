@@ -2,78 +2,54 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Samsung T7 SSD - Rapide, Portable et Sécurisé</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            color: white;
+            background-color: black;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .container {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            outline: none;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <canvas id="c"></canvas>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 
-    <div class="container">
+    var renderer = new THREE.WebGLRenderer({canvas: document.getElementById('c')});
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-        <header>
-            <nav>
-                <a href="#" class="logo"><img src="logo_samsung.png" alt="Logo Samsung"></a>
-                <ul>
-                    <li><a href="#">Produits</a></li>
-                    <li><a href="#">Solutions</a></li>
-                    <li><a href="#">Assistance</a></li>
-                    <li><a href="#">Où acheter</a></li>
-                </ul>
-                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
-            </nav>
-        </header>
+    var geometry = new THREE.BoxGeometry();
+    var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    var cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
 
-        <main>
+    camera.position.z = 5;
 
-            <section class="hero">
-                <div class="hero-content">
-                    <h1>Découvrez le Samsung T7 SSD</h1>
-                    <p>Stockage portable ultra-rapide et sécurisé pour vos données importantes.</p>
-                    <a href="#" class="btn btn-primary">Acheter maintenant</a>
-                </div>
-                <div class="hero-image">
-                    <img src="t7_hero.jpg" alt="Samsung T7 SSD">
-                </div>
-            </section>
+    var animate = function () {
+        requestAnimationFrame(animate);
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+        renderer.render(scene, camera);
+    };
 
-            <section class="produit">
-
-                <div class="modele-3d">
-                    <model-viewer src="https://cdn.jsdelivr.net/gh/mateorey22/samsung-t7@main/Samsung%20SSD-Samsung%20Portable%20SSD%20T7.obj" auto-rotate camera-controls shadow-intensity="1.0" environment-image="https://cdn.jsdelivr.net/gh/mateorey22/samsung-t7@main/t7_environment.jpg"></model-viewer>
-                </div>
-
-                <div class="description">
-                    <h2>Caractéristiques principales</h2>
-                    <ul>
-                        <li>Transferts de données ultra-rapides jusqu'à 1050 Mo/s (USB 3.2 Gen 2)</li>
-                        <li>Stockage sécurisé avec chiffrement matériel AES 256 bits</li>
-                        <li>Design compact et élégant, disponible en différentes couleurs</li>
-                        <li>Compatible avec une large gamme d'appareils, y compris Windows, Mac, Android et iOS</li>
-                        <li>Logiciel de gestion inclus pour une sauvegarde et une sécurité faciles</li>
-                    </ul>
-                    <a href="#" class="btn btn-acheter">Acheter maintenant</a>
-                </div>
-
-            </section>
-
-            <section class="avantages">
-                <h2>Pourquoi choisir le Samsung T7 SSD ?</h2>
-                <div class="avantages-grid">
-                    <div class="avantage">
-                        <i class="fas fa-bolt"></i>
-                        <h3>Rapide</h3>
-                        <p>Transferts de données jusqu'à 1050 Mo/s, 2 fois plus rapide que les SSD externes traditionnels.</p>
-                    </div>
-                    <div class="avantage">
-                        <i class="fas fa-shield"></i>
-                        <h3>Sécurisé</h3>
-                        <p>Protection de vos données avec chiffrement matériel AES 256 bits et logiciel de gestion inclus.</p>
-                    </div>
-                    <div class="avantage">
-                        <i class="fas fa
+    animate();
+</script>
+</body>
+</html>
