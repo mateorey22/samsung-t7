@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SSD T7</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2em;
+        }
+        #model3d {
+            width: 80%;
+            height: 500px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Samsung Portable SSD T7</h1>
+    <div id="model3d"></div>
+    <p>Le Samsung Portable SSD T7, sorti en 2020, offre une solution de stockage externe rapide et fiable. Avec sa technologie de pointe, ce SSD portable est idéal pour les professionnels et les technophiles cherchant à améliorer leurs systèmes.</p>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/loaders/OBJLoader.js"></script>
+    <script>
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setClearColor("#000000");  // Background color
+        renderer.setSize(window.innerWidth, 500);  // Adjust this line to set how you want the renderer to appear
+        document.getElementById('model3d').appendChild(renderer.domElement);
+
+        // Add lighting
+        var ambientLight = new THREE.AmbientLight(0x404040, 2);
+        scene.add(ambientLight);
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(0, 1, 1);
+        scene.add(directionalLight);
+
+        // Load the 3D model
+        var objLoader = new THREE.OBJLoader();
+        objLoader.load('https://cdn.jsdelivr.net/gh/mateorey22/samsung-t7@main/Samsung%20SSD-Samsung%20Portable%20SSD%20T7.obj', function (object) {
+            scene.add(object);
+            object.position.y -= 60;  // Adjust position if necessary
+            camera.position.z = 200;  // Adjust camera position if necessary
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
