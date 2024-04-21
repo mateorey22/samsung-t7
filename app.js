@@ -10,28 +10,39 @@ document.body.appendChild(renderer.domElement);
 
 const loader = new GLTFLoader();
 loader.load(
-    'https://github.com/mateorey22/samsung-t7/blob/main/ImageToStl.com_samsung%2Bssd-samsung%2Bportable%2Bssd%2Bt7.glb',  // Replace with the path to your model
+    'https://github.com/mateorey22/samsung-t7/blob/main/ImageToStl.com_samsung%2Bssd-samsung%2Bportable%2Bssd%2Bt7.glb',
     function (gltf) {
         scene.add(gltf.scene);
-        gltf.scene.position.set(0, -1, 0);  // Adjust position based on model specifics
-        gltf.scene.scale.set(2, 2, 2);  // Scale your model appropriately
+        gltf.scene.scale.set(2, 2, 2);  // Adjust scaling here
+        animateOpening(); // Start the opening animation when the model is loaded
     },
     undefined,
     function (error) {
-        console.error('An error happened', error);
+        console.error('An error happened during loading:', error);
     }
 );
 
 const controls = new OrbitControls(camera, renderer.domElement);
-camera.position.set(0, 1, 2);  // Set a nice view angle
+controls.autoRotate = true;  // Optional: automatically rotate the model
+camera.position.set(0, 1, 2);
 controls.update();
 
-const ambientLight = new THREE.AmbientLight(0x404040, 1.5);  // Soft white light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
+const pointLight = new THREE.PointLight(0xffffff, 1);
+pointLight.position.set(5, 3, 5);
+scene.add(pointLight);
+
+function animateOpening() {
+    pointLight.intensity = 0;  // Start with the light off
+    new TWEEN.Tween(pointLight).to({intensity: 1}, 3000).start();  // Light fades in
+    new TWEEN.Tween(gltf.scene.rotation).to({y: Math.PI * 2}, 5000).start();  // Rotate the model
+}
 
 function animate() {
     requestAnimationFrame(animate);
-    controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
+    TWEEN.update();  // Update all TWEEN animations
+    controls.update();
     renderer.render(scene, camera);
 }
 
